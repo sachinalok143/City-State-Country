@@ -14,92 +14,64 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+
 Route::group(['namespace' => 'Admin','prefix' => 'Admin'], function() {
+  Route::group(['namespace' => 'Location','prefix' => 'Location'], function() {
+     
+///=========================================Routes for Cities===============================
 
-Route::group(['namespace' => 'Location','prefix' => 'Location'], function() {
       Route::group(['namespace'=>'City','prefix'=>'City'],function(){
-        Route::get('/', 'BaseController@index');
-        Route::post('/search','BaseController@SearchResult');
-        Route::post('/Add','BaseController@AddCity');
-        Route::post('/delete_city','BaseController@delete_city');
-        Route::post('/update','BaseController@Update');
-        Route::get('/districts','DistrictController@districts');
-        Route::post('/updateditrict','DistrictController@updateditrict');
-        Route::post('/delete_district','DistrictController@delete_district');
-        Route::post('/AddDistrict','DistrictController@AddDistrict');
-        Route::post('/GetState','DistrictController@GetState');
-        Route::post('/seachState','DistrictController@seachState');
-
-
-///======================states========================////////////////////////========================
-
-        Route::get('/state','StateController@state');
-        Route::post('/updatestate','StateController@updatestate');
-        Route::post('/delete_state','StateController@delete_state');
-        Route::post('/AddState','StateController@AddState');
-        Route::post('/searchByCountry','StateController@searchByCountry');
-
-
-
-
-
-
-             //Controllers Within The "App\Http\Controllers\Admin\Location\City" Namespace
-       
+              Route::get('/get-all-cities', 'CityController@getAllCities');
+              Route::post('/search-city-by-district','CityController@searchCityByDistrict');
+              Route::post('/add-new-city','CityController@AddNewCity');
+              Route::post('/delete-city','CityController@deleteCity');
+              Route::post('/update-city-detail','CityController@updateCityDetail');
       });
- });
-});
-// 
+      ///=================================Routes for Districts===============================
 
-Route::get('/angularjs',function(){
+      Route::group(['namespace'=>'District','prefix'=>'District'],function(){
+              Route::get('/get-all-districts','DistrictController@getAllDistricts');
+              Route::post('/update-district-detail','DistrictController@updateDistrictDetail');
+              Route::post('/delete-district','DistrictController@deleteDistrict');
+              Route::post('/add-district','DistrictController@addDistrict');
+              // Route::post('/GetState','DistrictController@GetState');
+              Route::post('/seach-state','DistrictController@seachState');
+      });
 
-  return view('index');
-});
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/operators/all','SearchController@alloperator');
-Route::get('/search' ,'SearchController@search');
-Route::get('/city/{id}','SearchController@show');
-Route::get('/charts','ChartController@showChart');
-Route::get('/filtercharts','ChartController@filterChart');
-Route::get('/ScatterChart','ChartController@ScatterChart');
-// Route::get('angularjs');
-Route::get('/quote', function () {
-    return view('quotes');
-});
-Route::get('/test',function(){
-  return view('adminpanel.tools.location.cities.micros.form');
-});
-
-Route::get('/form',function(){
-  return view('layouts.form');
-});
-Route::get('/newmodule',function(){
-  return view('adminpanel1.tools.location.cities.index');
-});
-Route::get('/newmodule1',function(){
-  return view('adminpanel2.tools.location.cities.index');
-});
-
-Route::get('/operators', function () {
-    return view('layout.operators');
-});
-
-Route::get('/operators/charts',function(){
-  return view('modulecharts.charts');
-});
-
-Route::get('/newmodule2',function(){
-  return view('adminpanel3.tools.location.cities.index');
+      ///==================================Routes for states===============================
+      Route::group(['namespace'=>'State','prefix'=>'State'],function(){
+              Route::get('/get-all-states','StateController@getAllStates');
+              Route::post('/update-state-detail','StateController@updateState');
+              Route::post('/delete-state','StateController@deleteState');
+              Route::post('/add-state','StateController@addState');
+              Route::post('/search-state-by-country','StateController@searchStateByCountry');
+       });
+    });
 });
 
 
 
 
 
+//======================To manege the cities===========================//
+Route::get('/manage-cities',function(){
+  return view('adminpanel.tools.location.cities.angularModule.index');
+});
+
+//======================To manege the districts===========================//
+
+Route::get('/manage-districts',function(){
+  return view('adminpanel.tools.location.districts.angularModule.index');
+});
+
+//======================To manege the states===========================//
+Route::get('/manage-states',function(){
+  return view('adminpanel.tools.location.states.angularModule.index');
+});
 
 
+/*
 Route::post('/getstates/{id}','SearchController@getstates');
-Route::post('/getdistricts/{id}','SearchController@getdistricts');
+Route::post('/getdistricts/{id}','SearchController@getdistricts');*/
